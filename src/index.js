@@ -3,28 +3,12 @@ const entrada = PromptSync({ sigint: true });
 
 let total = 0;
 
-let produto1 = {
-    id: 1, 
-    quantidade: 0, 
-    nome: "banana", 
-    preco: 1.50, 
-    subTotal: 0
-
-}
-let produto2 = {
-    id: 2, 
-    quantidade: 0, 
-    nome: "maca", 
-    preco: 1.75, 
-    subTotal: 0 
-
-}
-let produto3 = {
-    id: 3, 
-    quantidade: 0, 
-    nome: "laranja", 
-    preco: 2.50, 
-    subTotal: 0
+let Produto = function () {
+    this.id = "",
+        this.quantidade = "",
+        this.nome = "",
+        this.preco = "",
+        this.subTotal = ""
 
 }
 
@@ -68,7 +52,18 @@ function loja() {
 
         console.log("1 banana\n2 maçã\n3 laranja");
         let escolha = parseInt(entrada("escolha uma opcao: "));
-        addCarrinho(escolha);
+        let produto = null;
+        if (escolha == 1) {
+            produto = 'banana';
+            addCarrinho(escolha, produto, 1.75);
+        } else if (escolha == 2) {
+            produto = 'maca';
+            addCarrinho(escolha, produto, 2.50);
+        } else if (escolha == 3) {
+            produto = 'laranja';
+            addCarrinho(escolha, produto, 2.00);
+
+        }
 
         console.log("comprar mais alguma coisa? ");
         vf = entrada("(s/n): ");
@@ -80,7 +75,7 @@ function loja() {
 
 
 
-function addCarrinho(id) {
+function addCarrinho(id, nome, preco) {
 
     let Quantidade = parseInt(entrada('quantos itens: '));
     let intemEncontrado = listaCompras.find(item => item.id === id);
@@ -88,7 +83,13 @@ function addCarrinho(id) {
         intemEncontrado.quantidade += Quantidade;
         intemEncontrado.subTotal += (intemEncontrado.preco * Quantidade);
     } else {
-        listaCompras.push(produto1)
+        let p = new Produto();
+        p.id = id;
+        p.quantidade = Quantidade;
+        p.nome = nome;
+        p.preco = preco;
+        p.subTotal = p.quantidade * p.preco;
+        listaCompras.push(p);
     }
 
 }
@@ -98,26 +99,31 @@ function addCarrinho(id) {
 
 
 
-function calculaValorTotal(valor) {
-    total += valor;
+function calcularValorTotal() {
+    total = 0;
+    listaCompras.forEach(item => {
+        total += item.subTotal;
+
+    });
 }
 
 function listarCompras() {
-    
+
     listaCompras.forEach(item => {
         if (item.quantidade != 0) {
             console.log("Quantidade: " + item.quantidade + " Nome do Produto: " + item.nome + " Valor Unitario :" + item.preco + " Sub Total: " + item.subTotal);
-            calculaValorTotal(item.subTotal);
             console.log('');
-        } 
-
-        if(item.quantidade == 0){
-            console.log('nao ha produtos no carrinho');
         }
     });
-    
-        console.log('Valor total das compras: R$ ' + total);
 
-  
+    if (listaCompras.length === 0) {
+        console.log('nao ha produtos no carrinho');
+    } else {
+        calcularValorTotal();
+        console.log('Valor total das compras: R$ ' + total);
+    }
+
+
+
 
 }
