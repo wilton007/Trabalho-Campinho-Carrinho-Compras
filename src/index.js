@@ -18,11 +18,14 @@ let listaCompras = [];
 let sair = 'n';
 
 while (sair == 'n') {
+    console.log("               MENU");
+    console.log("---------------------------------------")
 
-    console.log("1 comprar\n2 ver lista de compra\n3 pagar\n4 sair");
+    console.log("1 comprar\n2 ver lista de compra\n3 sair");
 
+    console.log("---------------------------------------")
     let escolha = entrada('escolha uma opcao: ');
-
+    console.clear();
     switch (escolha) {
         case '1':
             loja();
@@ -31,9 +34,6 @@ while (sair == 'n') {
             listarCompras();
             break;
         case '3':
-
-            break;
-        case '4':
             sair = 's';
             console.log('saindo...');
             break;
@@ -42,15 +42,16 @@ while (sair == 'n') {
 
 }
 
-
-
 function loja() {
 
     let vf = 's';
 
     while (vf == 's') {
-
+        console.log("            LOJA        ")
+        console.log("---------------------------------------")
         console.log("1 banana\n2 maçã\n3 laranja");
+        console.log("---------------------------------------")
+        console.log('');
         let escolha = parseInt(entrada("escolha uma opcao: "));
         let produto = null;
         if (escolha == 1) {
@@ -64,16 +65,14 @@ function loja() {
             addCarrinho(escolha, produto, 2.00);
 
         }
-
+        console.log("---------------------------------------")
         console.log("comprar mais alguma coisa? ");
         vf = entrada("(s/n): ");
-        console.log('');
+        console.clear();
+        
     }
 
 }
-
-
-
 
 function addCarrinho(id, nome, preco) {
 
@@ -94,11 +93,6 @@ function addCarrinho(id, nome, preco) {
 
 }
 
-
-
-
-
-
 function calcularValorTotal() {
     total = 0;
     listaCompras.forEach(item => {
@@ -108,11 +102,15 @@ function calcularValorTotal() {
 }
 
 function listarCompras() {
-
+            console.log("        CARRINHO DE COMPRA")
     listaCompras.forEach(item => {
         if (item.quantidade != 0) {
-            console.log("Quantidade: " + item.quantidade + " Nome do Produto: " + item.nome + " Valor Unitario :" + item.preco + " Sub Total: " + item.subTotal);
-            console.log('');
+            console.log("------------------------------------------"+
+            "\n Quantidade: " + item.quantidade + 
+            "\n Nome do Produto: " + item.nome + 
+            "\n Valor Unitario :" + item.preco + 
+            "\n Sub Total: " + item.subTotal);
+            
         }
     });
 
@@ -120,8 +118,15 @@ function listarCompras() {
         console.log('nao ha produtos no carrinho');
     } else {
         calcularValorTotal();
-        console.log('Valor total das compras: R$ ' + total);
+        console.log('------------------------------------------'+
+                    "\n------------------------------------------"+
+                    "\nValor total das compras: R$ " + total+
+                    "\n------------------------------------------"+
+                    "\n------------------------------------------");
     }
+
+    entrada("Precione qualquer tecla para retornar ao menu");
+    console.clear();
 
 
 
